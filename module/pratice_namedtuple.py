@@ -62,38 +62,32 @@ print(p1._fields, p2._fields, p3._fields)
 print(p1._asdict(), p4._asdict())
 
 
-# 실 사용 실습
+# Practice #1
 # 반20명 , 4개의 반-> (A,B,C,D) 번호
 
-# 네임드 튜플 선언
-Classes = namedtuple('Classes', ['rank', 'number'])
+# Declaration namedtuple
+# Classes = namedtuple('Classes', ['rank', 'number'])
+Classes = namedtuple('Art_Classes', 'rank, number')
 
-# 그룹 리스트 선언
+# Declaration ranks, numbers
 numbers = [str(n) for n in range(1, 21)]
 ranks = 'A B C D'.split()
 
-# List Comprehension
-students = [Classes(rank, number) for rank in ranks for number in numbers]
+print(numbers)
+print(ranks)
 
+# List Comprehension
+# students = [Classes(rank, number) for rank in ranks for number in numbers]
+# Recommand 
+students = [Classes(rank, number)
+                for rank in 'A B C D'.split()
+                    for number in [str(n)
+                        for n in range(1,21)]]
+
+print('test')
 print(len(students))
 print(students)
-
-# 추천
-students2 = [Classes(rank, number) 
-                    for rank in 'A B C D'.split() 
-                        for number in [str(n) 
-                            for n in range(1,21)]]
-
-
-print()
-print()
-
-print(len(students2))
-print(students2)
-
-print()
-print()
-
-# 출력
-for s in students:
-    print(s)
+tmp = Classes('A','22')
+print(tmp)
+# for s in students:
+#      print(s)
