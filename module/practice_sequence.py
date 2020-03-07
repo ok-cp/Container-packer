@@ -154,3 +154,110 @@ print('sort -', f_list.sort(key=lambda x: x[-1], reverse=True), f_list)
 # List vs Array 적합 한 사용법 설명
 # 리스트 기반 : 융통성, 다양한 자료형, 범용적 사용
 # 숫자 기반 : 배열(리스트와 거의 호환)
+
+
+##################################
+# hashtable  적은 리소스로 많은 데이터를 효율적으로 관리
+# Key에 Value를 저장하는 구조
+# 키 값의 연산결과에 따라 직접 접근 가능한 구조
+# 별도 hashtable 구현 없이 Dict 사용가능함.
+# Key 값을 해싱 함수 -> 해쉬 주소 -> Key에 대한 Value 참조
+
+# Dict 구조
+# print(__builtins__.__dict__)
+
+
+# # Hash 값 확인
+t1 = (10, 20, (30, 40, 50))
+t2 = (10, 20, [30, 40, 50])
+
+print( hash(t1))  # immutable(tuple)
+# print(hash(t2)) #  Occurred Error - mutable(List) 
+
+
+# Dict Setdefault 예제
+source = (('k1', 'val1'),
+          ('k1', 'val2'),
+          ('k2', 'val3'),
+          ('k2', 'val4'),
+          ('k2', 'val5'))
+
+new_dict1 = {}
+new_dict2 = {}
+
+# No use setdefault
+for k, v in source:
+    if k in new_dict1:
+        new_dict1[k].append(v)
+    else:
+        new_dict1[k] = [v]
+
+print(new_dict1)
+
+# Use setdefault
+for k, v in source:
+    new_dict2.setdefault(k, []).append(v)
+
+print(new_dict2)
+
+# # 주의 # key가 동일하면 value가 overwrite
+new_dict3 = {k : v for k , v in source}
+
+print(new_dict3)
+
+
+# Dict -> Key 중복 허용 X, Set -> 중복 허용 X
+# immutable Dict
+from types import MappingProxyType
+
+d = {'key1': 'value1'}
+
+# Read Only 변경
+d_frozen = MappingProxyType(d)
+
+print(d, id(d))
+print(d_frozen, id(d_frozen))
+print(d is d_frozen, d == d_frozen)
+
+# 수정 불가
+# d_frozen['key1'] = 'value2'
+
+d['key2'] = 'value2'
+
+print(d)
+
+print()
+print()
+
+s1 = {'Apple', 'Orange', 'Apple', 'Orange', 'Kiwi'}
+s2 = set(['Apple', 'Orange', 'Apple', 'Orange', 'Kiwi'])
+s3 = {3}
+s4 = set() # Not {}
+s5 = frozenset({'Apple', 'Orange', 'Apple', 'Orange', 'Kiwi'})
+
+# 추가
+s1.add('Melon')
+
+# 추가 불가
+# s5.add('Melon')
+
+print(s1, type(s1))
+print(s2, type(s2))
+print(s3, type(s3))
+print(s4, type(s4))
+print(s5, type(s5))
+
+# 선언 최적화 dis
+from dis import dis
+
+print('------') # 조금 더 빠름
+print(dis('{10}'))
+
+print('------')
+print(dis('set([10])'))
+
+print('------')
+
+# Comprehending Set
+from unicodedata import name
+print({name(chr(i), '') for i in range(0,256)})
